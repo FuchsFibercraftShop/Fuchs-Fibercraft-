@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Fuchs Fibercraft — Donation Shop</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="logo-wrap">
+      <!-- Replace with your logo: /assets/logo.svg -->
+      <div class="logo-placeholder">🦊</div>
+      <h1 class="site-title">Fuchs Fibercraft — Donation Shop</h1>
+    </div>
+    <nav class="links">
+      <a class="btn ghost" href="#products">Shop</a>
+      <a class="btn ghost" href="#cart">Warenkorb (<span id="cart-count">0</span>)</a>
+      <a class="btn ghost" href="https://discord.gg/pqsC66NgYS" target="_blank">Discord</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="intro" class="panel">
+      <pre class="frame">╭━━━━━━━━━━━━━━━━━━━━━━━━━━
+	━━━━━━━━╮
+			💰 𝐃𝐎𝐍𝐀𝐓𝐈𝐎𝐍 𝐒𝐇𝐎𝐏 💰
+╰━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━╯</pre>
+      <p class="lead neon">Secure your purchase now — Fuchs Fibercraft</p>
+    </section>
+
+    <section id="products" class="panel">
+      <h2 class="section-title neon">Produkte</h2>
+
+      <!-- Category: Dino Caps -->
+      <div class="category">
+        <h3>「 🦖 」 𝐃𝐈𝐍𝐎 𝐂𝐀𝐏𝐒</h3>
+        <div class="grid">
+          <div class="card" data-id="single-cap" data-price="1" data-stock="10">
+            <h4>𝐒𝐈𝐍𝐆𝐋𝐄 𝐂𝐀𝐏</h4>
+            <p class="price neon">〔 1💰 〕</p>
+            <button class="add btn neon-btn">In Warenkorb</button>
+          </div>
+
+          <div class="card" data-id="double-cap" data-price="3" data-stock="5">
+            <h4>𝐃𝐎𝐔𝐁𝐋𝐄 𝐂𝐀𝐏</h4>
+            <p class="price neon">〔 3💰 〕</p>
+            <button class="add btn neon-btn">In Warenkorb</button>
+          </div>
+
+          <div class="card" data-id="triple-cap" data-price="5" data-stock="3">
+            <h4>𝐓𝐑𝐈𝐏𝐋𝐄 𝐂𝐀𝐏</h4>
+            <p class="price neon">〔 5💰 〕</p>
+            <button class="add btn neon-btn">In Warenkorb</button>
+          </div>
+
+          <div class="card" data-id="flex-cap" data-price="8" data-stock="2">
+            <h4>𝐅𝐋𝐄𝐗 𝐂𝐀𝐏</h4>
+            <p class="price neon">〔 8💰 〕</p>
+            <button class="add btn neon-btn">In Warenkorb</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blueprints -->
+      <div class="category">
+        <h3>「 📜 」 𝐁𝐋𝐔𝐄𝐏𝐑𝐈𝐍𝐓𝐒</h3>
+        <div class="grid">
+          <div class="card" data-id="bp-1" data-price="2" data-stock="99">
+            <h4>𝐁𝐋𝐔𝐄𝐏𝐑𝐈𝐍𝐓</h4>
+            <p class="price neon">〔 2💰 〕</p>
+            <button class="add btn neon-btn">In Warenkorb</button>
+          </div>
+
+          <div class="card" data-id="bp-5" data-price="5" data-stock="50">
+            <h4>𝐁𝐋𝐔𝐄𝐏𝐑𝐈𝐍𝐓𝐒 (5)</h4>
+            <p class="price neon">〔 5💰 〕</p>
+            <button class="add btn neon-btn">In Warenkorb</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- More categories: add rest similarly -->
+
+      <div class="category">
+        <h3>「 📦 」 𝐃𝐄𝐃𝐈 𝐅𝐈𝐋𝐋</h3>
+        <div class="grid">
+          <div class="card" data-id="fills-10" data-price="10" data-stock="10">
+            <h4>10 𝐅𝐈𝐋𝐋𝐒</h4>
+            <p class="price neon">〔 10💰 〕</p>
+            <button class="add btn neon-btn">In Warenkorb</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="note">Weitere Artikel sind im Shop — ich habe alle wichtigen Kategorien als Vorlage angelegt; sag mir, wenn ich noch genaue Texte/Preise ergänzen soll.</p>
+    </section>
+
+    <section id="cart" class="panel">
+      <h2 class="section-title neon">Warenkorb</h2>
+      <div id="cart-contents"></div>
+      <div class="cart-footer">
+        <p>Gesamt: <span id="cart-total">0</span>💰</p>
+        <button id="checkout" class="btn neon-btn">Zur Zahlung (PayPal)</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Created by <span class="brand neon">Odin AEDCE</span></p>
+    <p class="small">@everyone • <a href="https://discord.gg/pqsC66NgYS" target="_blank">Discord</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
