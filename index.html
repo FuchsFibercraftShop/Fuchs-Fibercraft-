@@ -1,117 +1,882 @@
-<!doctype html>
-<html lang="de">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Fuchs Fibercraft — Donation Shop</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuchs Fibercraft - Donation Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a0033 0%, #2d0052 50%, #1a0033 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 20, 147, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(128, 0, 128, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 20px;
+            border: 2px solid #ff1493;
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.5), 0 0 60px rgba(128, 0, 128, 0.3);
+        }
+
+        .logo {
+            font-size: 80px;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 48px;
+            background: linear-gradient(90deg, #ff1493, #9400d3, #000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+            margin-bottom: 10px;
+            animation: textBlink 2s infinite;
+        }
+
+        @keyframes textBlink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.7; }
+        }
+
+        .tagline {
+            font-size: 20px;
+            color: #ff1493;
+            animation: colorBlink 1.5s infinite;
+            font-weight: bold;
+        }
+
+        @keyframes colorBlink {
+            0%, 100% { color: #ff1493; text-shadow: 0 0 10px #ff1493; }
+            50% { color: #9400d3; text-shadow: 0 0 10px #9400d3; }
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            padding: 12px 25px;
+            background: rgba(255, 20, 147, 0.8);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid #9400d3;
+            font-weight: bold;
+            animation: linkBlink 2s infinite;
+        }
+
+        @keyframes linkBlink {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 20, 147, 0.8); }
+            50% { box-shadow: 0 0 20px rgba(148, 0, 211, 0.8); }
+        }
+
+        nav a:hover {
+            background: linear-gradient(90deg, #ff1493, #9400d3);
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 20, 147, 1);
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .product-category {
+            background: rgba(20, 0, 40, 0.8);
+            border: 3px solid #ff1493;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.4), 0 0 40px rgba(128, 0, 128, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .product-category:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 40px rgba(255, 20, 147, 0.8), 0 0 80px rgba(128, 0, 128, 0.4);
+            border-color: #9400d3;
+        }
+
+        .category-title {
+            font-size: 24px;
+            color: #ff1493;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            animation: colorBlink 1.5s infinite;
+        }
+
+        .product-item {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #9400d3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-name {
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            color: #ff1493;
+            font-weight: bold;
+            font-size: 18px;
+            animation: colorBlink 1.5s infinite;
+        }
+
+        .add-to-cart-btn {
+            background: linear-gradient(90deg, #ff1493, #9400d3);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .add-to-cart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 20, 147, 0.8);
+        }
+
+        /* Cart Section */
+        .cart-section {
+            background: rgba(0, 0, 0, 0.7);
+            border: 3px solid #ff1493;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);
+        }
+
+        .cart-title {
+            font-size: 28px;
+            color: #ff1493;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: colorBlink 1.5s infinite;
+            font-weight: bold;
+        }
+
+        .cart-items {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            background: rgba(255, 20, 147, 0.1);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #9400d3;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .cart-item-price {
+            color: #ff1493;
+            font-weight: bold;
+        }
+
+        .remove-btn {
+            background: #8b0000;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background: #ff0000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+        }
+
+        .cart-summary {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #9400d3;
+            text-align: right;
+        }
+
+        .cart-total {
+            font-size: 24px;
+            color: #ff1493;
+            margin-bottom: 15px;
+            font-weight: bold;
+            animation: colorBlink 1.5s infinite;
+        }
+
+        .checkout-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .checkout-btn {
+            padding: 12px 30px;
+            background: linear-gradient(90deg, #ff1493, #9400d3);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
+        }
+
+        .clear-cart-btn {
+            padding: 12px 30px;
+            background: #8b0000;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .clear-cart-btn:hover {
+            background: #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+        }
+
+        .empty-cart-message {
+            text-align: center;
+            color: #9400d3;
+            font-size: 18px;
+            padding: 20px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 3px solid #ff1493;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background: rgba(255, 20, 147, 0.8);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            border: 2px solid #9400d3;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            animation: linkBlink 2s infinite;
+        }
+
+        .footer-link:hover {
+            background: linear-gradient(90deg, #ff1493, #9400d3);
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 20, 147, 1);
+        }
+
+        .footer-link-emoji {
+            font-size: 20px;
+        }
+
+        .creator-credit {
+            color: #9400d3;
+            font-size: 14px;
+            margin-top: 20px;
+            font-style: italic;
+            animation: colorBlink 1.5s infinite;
+        }
+
+        .fire-emoji {
+            display: inline-block;
+            animation: fire 0.6s infinite;
+        }
+
+        @keyframes fire {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        /* Scrollbar styling */
+        .cart-items::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .cart-items::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        .cart-items::-webkit-scrollbar-thumb {
+            background: #ff1493;
+            border-radius: 10px;
+        }
+
+        .cart-items::-webkit-scrollbar-thumb:hover {
+            background: #9400d3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .logo {
+                font-size: 60px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-btns {
+                flex-direction: column;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            nav a {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* Alert styles */
+        .alert {
+            padding: 15px;
+            background: rgba(255, 20, 147, 0.2);
+            border: 2px solid #ff1493;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: colorBlink 1.5s infinite;
+        }
+    </style>
 </head>
 <body>
-  <header class="hero">
-    <div class="logo-wrap">
-      <!-- Replace with your logo: /assets/logo.svg -->
-      <div class="logo-placeholder">🦊</div>
-      <h1 class="site-title">Fuchs Fibercraft — Donation Shop</h1>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">🦊</div>
+            <h1>💰 FUCHS FIBERCRAFT 💰</h1>
+            <div class="tagline">✨ DONATION SHOP ✨</div>
+        </header>
+
+        <!-- Navigation -->
+        <nav>
+            <a href="#home">🏠 HOME</a>
+            <a href="#products">🛍️ SHOP</a>
+            <a href="#cart">🛒 CART</a>
+            <a href="#footer">📞 CONTACT</a>
+        </nav>
+
+        <!-- Products Section -->
+        <div id="products" class="products-grid">
+            <!-- Dino Caps -->
+            <div class="product-category">
+                <div class="category-title">🦖 DINO CAPS</div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">SINGLE CAP</div>
+                        <div class="product-price">1💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('SINGLE CAP', 1)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">DOUBLE CAP</div>
+                        <div class="product-price">3💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('DOUBLE CAP', 3)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">TRIPLE CAP</div>
+                        <div class="product-price">5💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('TRIPLE CAP', 5)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">FLEX CAP</div>
+                        <div class="product-price">8💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('FLEX CAP', 8)">ADD</button>
+                </div>
+            </div>
+
+            <!-- Blueprints -->
+            <div class="product-category">
+                <div class="category-title">📜 BLUEPRINTS</div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">SINGLE BLUEPRINT</div>
+                        <div class="product-price">2💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('SINGLE BLUEPRINT', 2)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">5 BLUEPRINTS</div>
+                        <div class="product-price">5💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('5 BLUEPRINTS', 5)">ADD</button>
+                </div>
+            </div>
+
+            <!-- Ascension -->
+            <div class="product-category">
+                <div class="category-title">💠 ASCENSION</div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">SINGLE PLAYER</div>
+                        <div class="product-price">5💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('SINGLE PLAYER', 5)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">FULL TRIBE (10)</div>
+                        <div class="product-price">15💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('FULL TRIBE', 15)">ADD</button>
+                </div>
+            </div>
+
+            <!-- GCM Time -->
+            <div class="product-category">
+                <div class="category-title">🛠️ GCM TIME</div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">5 MINUTES</div>
+                        <div class="product-price">10💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('5 MINUTES GCM', 10)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">10 MINUTES</div>
+                        <div class="product-price">15💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('10 MINUTES GCM', 15)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">15 MINUTES</div>
+                        <div class="product-price">25💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('15 MINUTES GCM', 25)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">20 MINUTES</div>
+                        <div class="product-price">35💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('20 MINUTES GCM', 35)">ADD</button>
+                </div>
+            </div>
+
+            <!-- Dedi Fill -->
+            <div class="product-category">
+                <div class="category-title">📦 DEDI FILL</div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">10 FILLS</div>
+                        <div class="product-price">10💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('10 FILLS', 10)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">15 FILLS</div>
+                        <div class="product-price">15💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('15 FILLS', 15)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">20 FILLS</div>
+                        <div class="product-price">20💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('20 FILLS', 20)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">30 FILLS</div>
+                        <div class="product-price">50💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('30 FILLS', 50)">ADD</button>
+                </div>
+            </div>
+
+            <!-- Dino Paints -->
+            <div class="product-category">
+                <div class="category-title">🧹 DINO PAINTS</div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">SINGLE PAINT</div>
+                        <div class="product-price">1💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('SINGLE PAINT', 1)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">5 PAINTS</div>
+                        <div class="product-price">3💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('5 PAINTS', 3)">ADD</button>
+                </div>
+            </div>
+
+            <!-- Custom Caves -->
+            <div class="product-category">
+                <div class="category-title">🗻 CUSTOM CAVES</div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">CLOSED ENTRANCE</div>
+                        <div class="product-price">2💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('CLOSED ENTRANCE', 2)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">STEGO ENTRANCE</div>
+                        <div class="product-price">4💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('STEGO ENTRANCE', 4)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">CARBO ENTRANCE</div>
+                        <div class="product-price">6💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('CARBO ENTRANCE', 6)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">CROUCH ENTRANCE</div>
+                        <div class="product-price">10💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('CROUCH ENTRANCE', 10)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">PELA ENTRANCE</div>
+                        <div class="product-price">12💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('PELA ENTRANCE', 12)">ADD</button>
+                </div>
+            </div>
+
+            <!-- Special Dinos -->
+            <div class="product-category">
+                <div class="category-title">🦎 SPECIAL DINOS</div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">REAPER QUEEN LVL 900</div>
+                        <div class="product-price">15💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('REAPER QUEEN LVL 900', 15)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">REAPER QUEEN LVL 1200</div>
+                        <div class="product-price">30💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('REAPER QUEEN LVL 1200', 30)">ADD</button>
+                </div>
+                <div class="alert">🔒 AVAILABLE ONLY ON PRIVATE</div>
+            </div>
+
+            <!-- Space Whale -->
+            <div class="product-category">
+                <div class="category-title">🐉 SPACE WHALE</div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">SPACE WHALE LVL 900</div>
+                        <div class="product-price">1💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('SPACE WHALE LVL 900', 1)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">SPACE WHALE LVL 1200</div>
+                        <div class="product-price">3💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('SPACE WHALE LVL 1200', 3)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">FLEX SPACE WHALE</div>
+                        <div class="product-price">6💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('FLEX SPACE WHALE', 6)">ADD</button>
+                </div>
+            </div>
+
+            <!-- Noglin -->
+            <div class="product-category">
+                <div class="category-title">🦂 NOGLIN</div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">NOGLIN LVL 1725</div>
+                        <div class="product-price">1💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('NOGLIN LVL 1725', 1)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">FLEX CAP NOGLIN</div>
+                        <div class="product-price">5💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('FLEX CAP NOGLIN', 5)">ADD</button>
+                </div>
+            </div>
+
+            <!-- Private Services -->
+            <div class="product-category">
+                <div class="category-title">🏛️ PRIVATE SERVICES</div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">PASS CHANGE</div>
+                        <div class="product-price">2.50💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('PASS CHANGE', 2.50)">ADD</button>
+                </div>
+                <div class="product-item">
+                    <div class="product-info">
+                        <div class="product-name">CUSTOM TRIBE ROLE</div>
+                        <div class="product-price">5💰</div>
+                    </div>
+                    <button class="add-to-cart-btn" onclick="addToCart('CUSTOM TRIBE ROLE', 5)">ADD</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Section -->
+        <div id="cart" class="cart-section">
+            <div class="cart-title">
+                <span class="fire-emoji">🔥</span> YOUR CART <span class="fire-emoji">🔥</span>
+            </div>
+            <div id="cartItems" class="cart-items">
+                <div class="empty-cart-message">Your cart is empty. Start shopping! 🛍️</div>
+            </div>
+            <div class="cart-summary">
+                <div class="cart-total">Total: <span id="cartTotal">0</span>💰</div>
+                <div class="checkout-btns">
+                    <button class="checkout-btn" onclick="checkout()">💳 CHECKOUT</button>
+                    <button class="clear-cart-btn" onclick="clearCart()">🗑️ CLEAR CART</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <div class="cart-title" style="margin-bottom: 30px;">
+                <span class="fire-emoji">🔥</span> SECURE YOUR PURCHASE NOW <span class="fire-emoji">🔥</span>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.paypal.me/FuchsFibercraft12" target="_blank" class="footer-link">
+                    <span class="footer-link-emoji">💳</span> PayPal
+                </a>
+                <a href="https://discord.gg/pqsC66NgYS" target="_blank" class="footer-link">
+                    <span class="footer-link-emoji">🎮</span> Discord
+                </a>
+            </div>
+            <div class="creator-credit">
+                ✨ Created by Odin AEDCE ✨
+            </div>
+        </footer>
     </div>
-    <nav class="links">
-      <a class="btn ghost" href="#products">Shop</a>
-      <a class="btn ghost" href="#cart">Warenkorb (<span id="cart-count">0</span>)</a>
-      <a class="btn ghost" href="https://discord.gg/pqsC66NgYS" target="_blank">Discord</a>
-    </nav>
-  </header>
 
-  <main>
-    <section id="intro" class="panel">
-      <pre class="frame">╭━━━━━━━━━━━━━━━━━━━━━━━━━━
-	━━━━━━━━╮
-			💰 𝐃𝐎𝐍𝐀𝐓𝐈𝐎𝐍 𝐒𝐇𝐎𝐏 💰
-╰━━━━━━━━━━━━━━━━━━━━━━━━━━
-━━━━━━━━╯</pre>
-      <p class="lead neon">Secure your purchase now — Fuchs Fibercraft</p>
-    </section>
+    <script>
+        // Cart Management
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    <section id="products" class="panel">
-      <h2 class="section-title neon">Produkte</h2>
+        function addToCart(productName, price) {
+            cart.push({
+                id: Date.now(),
+                name: productName,
+                price: price
+            });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCart();
+            showNotification(`${productName} added to cart!`);
+        }
 
-      <!-- Category: Dino Caps -->
-      <div class="category">
-        <h3>「 🦖 」 𝐃𝐈𝐍𝐎 𝐂𝐀𝐏𝐒</h3>
-        <div class="grid">
-          <div class="card" data-id="single-cap" data-price="1" data-stock="10">
-            <h4>𝐒𝐈𝐍𝐆𝐋𝐄 𝐂𝐀𝐏</h4>
-            <p class="price neon">〔 1💰 〕</p>
-            <button class="add btn neon-btn">In Warenkorb</button>
-          </div>
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCart();
+        }
 
-          <div class="card" data-id="double-cap" data-price="3" data-stock="5">
-            <h4>𝐃𝐎𝐔𝐁𝐋𝐄 𝐂𝐀𝐏</h4>
-            <p class="price neon">〔 3💰 〕</p>
-            <button class="add btn neon-btn">In Warenkorb</button>
-          </div>
+        function updateCart() {
+            const cartItemsDiv = document.getElementById('cartItems');
+            const cartTotalSpan = document.getElementById('cartTotal');
 
-          <div class="card" data-id="triple-cap" data-price="5" data-stock="3">
-            <h4>𝐓𝐑𝐈𝐏𝐋𝐄 𝐂𝐀𝐏</h4>
-            <p class="price neon">〔 5💰 〕</p>
-            <button class="add btn neon-btn">In Warenkorb</button>
-          </div>
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '<div class="empty-cart-message">Your cart is empty. Start shopping! 🛍️</div>';
+                cartTotalSpan.textContent = '0';
+                return;
+            }
 
-          <div class="card" data-id="flex-cap" data-price="8" data-stock="2">
-            <h4>𝐅𝐋𝐄𝐗 𝐂𝐀𝐏</h4>
-            <p class="price neon">〔 8💰 〕</p>
-            <button class="add btn neon-btn">In Warenkorb</button>
-          </div>
-        </div>
-      </div>
+            let html = '';
+            let total = 0;
 
-      <!-- Blueprints -->
-      <div class="category">
-        <h3>「 📜 」 𝐁𝐋𝐔𝐄𝐏𝐑𝐈𝐍𝐓𝐒</h3>
-        <div class="grid">
-          <div class="card" data-id="bp-1" data-price="2" data-stock="99">
-            <h4>𝐁𝐋𝐔𝐄𝐏𝐑𝐈𝐍𝐓</h4>
-            <p class="price neon">〔 2💰 〕</p>
-            <button class="add btn neon-btn">In Warenkorb</button>
-          </div>
+            cart.forEach(item => {
+                html += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">${item.price}💰</div>
+                        </div>
+                        <button class="remove-btn" onclick="removeFromCart(${item.id})">REMOVE</button>
+                    </div>
+                `;
+                total += item.price;
+            });
 
-          <div class="card" data-id="bp-5" data-price="5" data-stock="50">
-            <h4>𝐁𝐋𝐔𝐄𝐏𝐑𝐈𝐍𝐓𝐒 (5)</h4>
-            <p class="price neon">〔 5💰 〕</p>
-            <button class="add btn neon-btn">In Warenkorb</button>
-          </div>
-        </div>
-      </div>
+            cartItemsDiv.innerHTML = html;
+            cartTotalSpan.textContent = total.toFixed(2);
+        }
 
-      <!-- More categories: add rest similarly -->
+        function clearCart() {
+            if (confirm('Are you sure you want to clear your cart?')) {
+                cart = [];
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCart();
+                showNotification('Cart cleared!');
+            }
+        }
 
-      <div class="category">
-        <h3>「 📦 」 𝐃𝐄𝐃𝐈 𝐅𝐈𝐋𝐋</h3>
-        <div class="grid">
-          <div class="card" data-id="fills-10" data-price="10" data-stock="10">
-            <h4>10 𝐅𝐈𝐋𝐋𝐒</h4>
-            <p class="price neon">〔 10💰 〕</p>
-            <button class="add btn neon-btn">In Warenkorb</button>
-          </div>
-        </div>
-      </div>
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
 
-      <p class="note">Weitere Artikel sind im Shop — ich habe alle wichtigen Kategorien als Vorlage angelegt; sag mir, wenn ich noch genaue Texte/Preise ergänzen soll.</p>
-    </section>
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            
+            // Redirect to PayPal with amount
+            window.location.href = `https://www.paypal.me/FuchsFibercraft12/${total.toFixed(2)}`;
+            
+            // Clear cart after checkout
+            setTimeout(() => {
+                cart = [];
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCart();
+            }, 1000);
+        }
 
-    <section id="cart" class="panel">
-      <h2 class="section-title neon">Warenkorb</h2>
-      <div id="cart-contents"></div>
-      <div class="cart-footer">
-        <p>Gesamt: <span id="cart-total">0</span>💰</p>
-        <button id="checkout" class="btn neon-btn">Zur Zahlung (PayPal)</button>
-      </div>
-    </section>
-  </main>
+        function showNotification(message) {
+            alert(message);
+        }
 
-  <footer class="site-footer">
-    <p>Created by <span class="brand neon">Odin AEDCE</span></p>
-    <p class="small">@everyone • <a href="https://discord.gg/pqsC66NgYS" target="_blank">Discord</a></p>
-  </footer>
-
-  <script src="script.js"></script>
+        // Initialize cart on page load
+        updateCart();
+    </script>
 </body>
 </html>
