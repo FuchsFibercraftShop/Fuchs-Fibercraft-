@@ -1,5 +1,5 @@
 // Simple frontend shop with localStorage cart
-const PAYPAL_LINK = 'REPLACE_WITH_PAYPAL_LINK'; // replace with your PayPal.Me or payment link
+const PAYPAL_LINK = 'https://www.paypal.me/FuchsFibercraft12'; // your PayPal.Me link
 
 function qs(sel, ctx=document){return ctx.querySelector(sel)}
 function qsa(sel, ctx=document){return Array.from(ctx.querySelectorAll(sel))}
@@ -47,13 +47,7 @@ function addListeners(){
   qs('#checkout').addEventListener('click', ()=>{
     const total = Number(qs('#cart-total').textContent||0);
     if(total<=0){alert('Dein Warenkorb ist leer.');return}
-    // Open PayPal link in new tab; instruct user to set PAYPAL_LINK
-    if(PAYPAL_LINK === 'REPLACE_WITH_PAYPAL_LINK'){
-      const summary = Object.values(cart).map(i=>`${i.title} x${i.qty} = ${i.price*i.qty}💰`).join('\n');
-      alert('Zahlungs-Link fehlt. Bitte ersetze PAYPAL_LINK in script.js mit deinem PayPal-Link.\n\nBestellung summary:\n'+summary+'\n\nGesamt: '+total+'💰');
-      return;
-    }
-    // If using PayPal.Me, you can append /AMOUNT (example). Open link in new tab.
+    // Open PayPal link in new tab; uses your PayPal.Me link
     const url = PAYPAL_LINK.includes('paypal.me') ? `${PAYPAL_LINK}/${total}` : PAYPAL_LINK;
     window.open(url, '_blank');
   });
